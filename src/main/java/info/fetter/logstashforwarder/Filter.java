@@ -17,72 +17,73 @@ package info.fetter.logstashforwarder;
  *
  */
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.regex.Pattern;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class Filter {
-	private Pattern pattern = null;
-	private boolean negate = false;
-	private String charset = "UTF-8";
+    private Pattern pattern = null;
+    private boolean negate = false;
+    private String charset = "UTF-8";
 
-	public Filter() {
-	}
+    public Filter() {
+    }
 
-	public Filter(Filter event) {
-		if(event != null) {
-			this.negate = event.negate;
-			this.pattern = event.pattern;
-		}
-	}
+    public Filter(Filter event) {
+        if (event != null) {
+            this.negate = event.negate;
+            this.pattern = event.pattern;
+        }
+    }
 
-	public Filter(Map<String,String> fields) throws UnsupportedEncodingException {
-		String strPattern = "";
-		for(String key : fields.keySet()) {
-			if ("pattern".equals(key))
-				strPattern = fields.get(key);
-			else if ("negate".equals(key))
-				negate = Boolean.parseBoolean(fields.get(key));
-			else
-				throw new UnsupportedEncodingException(key + " not supported");
-		}
-		pattern = Pattern.compile(strPattern);
+    public Filter(Map<String, String> fields) throws UnsupportedEncodingException {
+        String strPattern = "";
+        for (String key : fields.keySet()) {
+            if ("pattern".equals(key))
+                strPattern = fields.get(key);
+            else if ("negate".equals(key))
+                negate = Boolean.parseBoolean(fields.get(key));
+            else
+                throw new UnsupportedEncodingException(key + " not supported");
+        }
+        pattern = Pattern.compile(strPattern);
 
-	}
+    }
 
-	public Pattern getPattern() {
-		return pattern;
-	}
+    public Pattern getPattern() {
+        return pattern;
+    }
 
-	public boolean isNegate() {
-		return negate;
-	}
+    public boolean isNegate() {
+        return negate;
+    }
 
-	public boolean accept (byte[] line) {
-		try {
-			return accept(new String(line, charset));
-		} catch (UnsupportedEncodingException e) {
-			System.err.println("ERROR: unsupported encoding " + charset);
-			System.err.flush();// In case we crash at new String(line),
-			// because the behaviour if the bytes are not decodable with
-			// the platform's default encoding is undefined.
-			// Last ditch effort, decode with the platform's encoding:
-			return accept(new String(line));
-		}
-	}
+    public boolean accept(byte[] line) {
+        try {
+            return accept(new String(line, charset));
+        } catch (UnsupportedEncodingException e) {
+            System.err.println("ERROR: unsupported encoding " + charset);
+            System.err.flush();// In case we crash at new String(line),
+            // because the behaviour if the bytes are not decodable with
+            // the platform's default encoding is undefined.
+            // Last ditch effort, decode with the platform's encoding:
+            return accept(new String(line));
+        }
+    }
 
-	public boolean accept (String line) {
-		boolean result = pattern.matcher(line).find();
-		if (negate) return !result;
-		return result;
-	}
+    public boolean accept(String line) {
+        boolean result = pattern.matcher(line).find();
+        if (negate) return !result;
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this).
-			append("pattern", pattern).
-			append("negate", negate).
-			toString();
-	}
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).
+                append("pattern", pattern).
+                append("negate", negate).
+                toString();
+    }
 }

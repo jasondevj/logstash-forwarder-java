@@ -1,4 +1,16 @@
 [
-{"fileName":"file1","directory":"/directory1","pointer":12345,"signature":654321,"signatureLength":135},
-{"fileName":"file2","directory":"/directory2","pointer":23456,"signature":7654,"signatureLength":246}
+  {
+    "fileName": "file1",
+    "directory": "/directory1",
+    "pointer": 12345,
+    "signature": 654321,
+    "signatureLength": 135
+  },
+  {
+    "fileName": "file2",
+    "directory": "/directory2",
+    "pointer": 23456,
+    "signature": 7654,
+    "signatureLength": 246
+  }
 ]

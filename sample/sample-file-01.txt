@@ -9,8 +9,7 @@ Here are a few features of this program :
   - configuration compatible with logstash-forwarder
   - UDP output
 
-This is fork of the original version to support UDP and TCP protocol rather than using lumberjack, TCP is still under testing. I just needed UDP to work.
-If anyone needs TCP just raise a ticket and I will look into it.
+This is fork of the original version to support UDP protocal rather than using lumberjack
 
 ## Why ?
 
@@ -24,6 +23,8 @@ So logstash-forwarder-java is a solution for those who want a portable, lightwei
 
 Download one of the following archives :
   - [logstash-forwarder-java-0.2.4-bin.zip](https://github.com/didfet/logstash-forwarder-java/releases/download/0.2.4/logstash-forwarder-java-0.2.4-bin.zip)
+  - [logstash-forwarder-java-0.2.4-bin.tar.gz](https://github.com/didfet/logstash-forwarder-java/releases/download/0.2.4/logstash-forwarder-java-0.2.4-bin.tar.gz)
+  - [logstash-forwarder-java-0.2.4-bin.tar.bz2](https://github.com/didfet/logstash-forwarder-java/releases/download/0.2.4/logstash-forwarder-java-0.2.4-bin.tar.bz2)
 
 Or download the maven project and run maven package. Then you can install one of the archives located in the target directory.
 
@@ -41,7 +42,11 @@ For help run :
 
 ### Configuration
 
-Please check directory sample, to get an idea of the config file.
+The configuration file is the same (json format), but there are a few differences :
+  - the ssl ca parameter points to a java [keystore](https://github.com/didfet/logstash-forwarder-java/blob/master/HOWTO-KEYSTORE.md) containing the root certificate of the server, not a PEM file
+  - comments are C-style comments
+  - multiline support with attributes "pattern", "negate" (true/false) and "what" (previous/next) (version 0.2.5)
+  - filtering support with attributes "pattern" and "negate" (true/false) (version 0.2.5)
 
 ### Command-line options
 
@@ -51,6 +56,11 @@ Some options are the same :
   - idle-timeout (renamed idletimeout)
   - spool-size (renamed spoolsize)
   - tail
+
+
+
+
+
   - help
 
 There are a few more options :
@@ -61,3 +71,9 @@ There are a few more options :
   - logfilesize : maximum size of each log file (default 10M)
   - logfilenumber : number of rotated log files (default 5)
 
+test 11111
+test 11111
+test 11111
+test 11111
+test 11111
+test 11111

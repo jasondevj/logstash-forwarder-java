@@ -19,67 +19,56 @@ package info.fetter.logstashforwarder.config;
 
 import java.util.List;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class NetworkSection {
-	private List<String> servers;
-	@JsonProperty("ssl certificate")
-	private String sslCertificate;
-	@JsonProperty("ssl ca")
-	private String sslCA;
-	@JsonProperty("ssl key")
-	private String sslKey;
-	private int timeout;
+    private List<Server> servers;
+    private int timeout;
 
-	public List<String> getServers() {
-		return servers;
-	}
+    public List<Server> getServers() {
+        return servers;
+    }
 
-	public void setServers(List<String> servers) {
-		this.servers = servers;
-	}
+    public void setServers(List<Server> servers) {
+        this.servers = servers;
+    }
 
-	public String getSslCertificate() {
-		return sslCertificate;
-	}
+    public int getTimeout() {
+        return timeout;
+    }
 
-	public void setSslCertificate(String sslCertificate) {
-		this.sslCertificate = sslCertificate;
-	}
+    @Override
+    public String toString() {
+        return "NetworkSection{" +
+                "servers=" + servers +
+                ", timeout=" + timeout +
+                '}';
+    }
 
-	public String getSslCA() {
-		return sslCA;
-	}
+    public static class Server {
+        private String protocol;
+        private String connection;
 
-	public void setSslCA(String sslCA) {
-		this.sslCA = sslCA;
-	}
+        public String getProtocol() {
+            return protocol;
+        }
 
-	public int getTimeout() {
-		return timeout;
-	}
+        public void setProtocol(String protocol) {
+            this.protocol = protocol;
+        }
 
-	public void setTimeout(int timeout) {
-		this.timeout = timeout;
-	}
-	
-	public String getSslKey() {
-		return sslKey;
-	}
+        public String getConnection() {
+            return connection;
+        }
 
-	public void setSslKey(String sslKey) {
-		this.sslKey = sslKey;
-	}
+        public void setConnection(String connection) {
+            this.connection = connection;
+        }
 
-	@Override
-	public String toString() {
-	     return new ToStringBuilder(this).
-	    	       append("servers", servers).
-	    	       append("sslCertificate", sslCertificate).
-	    	       append("sslCA", sslCA).
-	    	       append("timeout", timeout).
-	    	       toString();
-	}
+        @Override
+        public String toString() {
+            return "Server{" +
+                    "protocol='" + protocol + '\'' +
+                    ", connection='" + connection + '\'' +
+                    '}';
+        }
+    }
 }

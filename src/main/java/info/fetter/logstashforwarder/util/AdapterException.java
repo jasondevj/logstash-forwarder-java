@@ -18,13 +18,13 @@ package info.fetter.logstashforwarder.util;
  */
 
 public class AdapterException extends Exception {
-	private static final long serialVersionUID = -5236526584082990877L;
+    private static final long serialVersionUID = -5236526584082990877L;
 
-	public AdapterException(String message) {
-		super(message);
-	}
-	
-	public AdapterException(Throwable cause) {
-		super(cause);
-	}
+    public AdapterException(String message) {
+        super(message);
+    }
+
+    public AdapterException(Throwable cause) {
+        super(cause);
+    }
 }

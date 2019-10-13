@@ -17,13 +17,9 @@ package info.fetter.logstashforwarder;
  *
  */
 
-import static org.apache.log4j.Level.DEBUG;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.RootLogger;
@@ -31,51 +27,54 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.apache.log4j.Level.DEBUG;
 
 public class RegistrarTest {
-	Logger logger = Logger.getLogger(RegistrarTest.class);
+    Logger logger = Logger.getLogger(RegistrarTest.class);
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		BasicConfigurator.configure();
-		RootLogger.getRootLogger().setLevel(DEBUG);
-	}
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        BasicConfigurator.configure();
+        RootLogger.getRootLogger().setLevel(DEBUG);
+    }
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-		BasicConfigurator.resetConfiguration();
-	}
-	
-	@Test
-	public void testReadState1() throws JsonParseException, JsonMappingException, IOException {
-		FileState[] states = Registrar.readStateFromJson(new File(RegistrarTest.class.getClassLoader().getResource("state1.json").getFile()));
-		for(FileState state : states) {
-			logger.debug("Loaded state : " + state);
-		}
-	}
-	
-	@Test
-	public void testWriteState2() throws JsonGenerationException, JsonMappingException, IOException {
-		FileState state1 = new FileState();
-		state1.setDirectory("/directory1");
-		state1.setFileName("file1");
-		state1.setPointer(1234);
-		state1.setSignature(123456);
-		state1.setSignatureLength(135);
-		FileState state2 = new FileState();
-		state2.setDirectory("/directory2");
-		state2.setFileName("file2");
-		state2.setPointer(4321);
-		state2.setSignature(654321);
-		state2.setSignatureLength(531);
-		List<FileState> stateList = new ArrayList<FileState>(2);
-		stateList.add(state1);
-		stateList.add(state2);
-		File file = new File("state2.json");
-		logger.debug("Writing to file : " + file.getCanonicalPath());
-		Registrar.writeStateToJson(file, stateList);
-	}
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+        BasicConfigurator.resetConfiguration();
+    }
+
+    @Test
+    public void testReadState1() throws JsonParseException, JsonMappingException, IOException {
+        FileState[] states = Registrar.readStateFromJson(new File(RegistrarTest.class.getClassLoader().getResource("state1.json").getFile()));
+        for (FileState state : states) {
+            logger.debug("Loaded state : " + state);
+        }
+    }
+
+    @Test
+    public void testWriteState2() throws JsonGenerationException, JsonMappingException, IOException {
+        FileState state1 = new FileState();
+        state1.setDirectory("/directory1");
+        state1.setFileName("file1");
+        state1.setPointer(1234);
+        state1.setSignature(123456);
+        state1.setSignatureLength(135);
+        FileState state2 = new FileState();
+        state2.setDirectory("/directory2");
+        state2.setFileName("file2");
+        state2.setPointer(4321);
+        state2.setSignature(654321);
+        state2.setSignatureLength(531);
+        List<FileState> stateList = new ArrayList<FileState>(2);
+        stateList.add(state1);
+        stateList.add(state2);
+        File file = new File("state2.json");
+        logger.debug("Writing to file : " + file.getCanonicalPath());
+        Registrar.writeStateToJson(file, stateList);
+    }
 }

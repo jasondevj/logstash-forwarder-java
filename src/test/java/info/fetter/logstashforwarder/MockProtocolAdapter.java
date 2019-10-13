@@ -17,42 +17,42 @@ package info.fetter.logstashforwarder;
  *
  */
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 public class MockProtocolAdapter implements ProtocolAdapter {
-	private static Logger logger = Logger.getLogger(MockProtocolAdapter.class);
-	private List<Event> lastEvents;
+    private static Logger logger = Logger.getLogger(MockProtocolAdapter.class);
+    private List<Event> lastEvents;
 
-	public int sendEvents(List<Event> eventList) {
-		for(Event event : eventList) {
-			logger.trace("Event :");
-			for(String key : event.getKeyValues().keySet()) {
-				logger.trace("-- " + key  + ":" + new String(event.getKeyValues().get(key)));
-			}
-		}
-		lastEvents = new ArrayList<Event>(eventList);
-		return eventList.size();
-	}
-	
-	public List<Event> getLastEvents() {
-		return lastEvents;
-	}
+    public int sendEvents(List<Event> eventList) {
+        for (Event event : eventList) {
+            logger.trace("Event :");
+            for (String key : event.getKeyValues().keySet()) {
+                logger.trace("-- " + key + ":" + new String(event.getKeyValues().get(key)));
+            }
+        }
+        lastEvents = new ArrayList<Event>(eventList);
+        return eventList.size();
+    }
 
-	public void close() {
-		// not implemented
-	}
+    public List<Event> getLastEvents() {
+        return lastEvents;
+    }
 
-	public String getServer() {
-		// TODO Auto-generated method stub
-		return "";
-	}
+    public void close() {
+        // not implemented
+    }
 
-	public int getPort() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public String getServer() {
+        // TODO Auto-generated method stub
+        return "";
+    }
+
+    public int getPort() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
 }

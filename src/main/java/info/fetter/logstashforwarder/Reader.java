@@ -27,64 +27,65 @@ import java.util.List;
 
 
 public abstract class Reader {
-	protected ProtocolAdapter adapter;
-	protected int spoolSize = 0;
-	protected List<Event> eventList;
-	protected final int BYTEBUFFER_CAPACITY = 1024 * 1024;
-	protected ByteBuffer byteBuffer = ByteBuffer.allocate(BYTEBUFFER_CAPACITY);
-	private String hostname;
-	{
-		try {
-			hostname = InetAddress.getLocalHost().getHostName();
-		} catch (UnknownHostException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    protected final int BYTEBUFFER_CAPACITY = 1024 * 1024;
+    protected ProtocolAdapter adapter;
+    protected int spoolSize = 0;
+    protected List<Event> eventList;
+    protected ByteBuffer byteBuffer = ByteBuffer.allocate(BYTEBUFFER_CAPACITY);
+    private String hostname;
 
-	protected Reader(int spoolSize) {
-		this.spoolSize = spoolSize;
-		eventList = new ArrayList<Event>(spoolSize);
-	}
+    {
+        try {
+            hostname = InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	protected void addEvent(FileState state, long pos, String line) throws IOException {
-		Filter filter = state.getFilter();
-		if (filter == null || filter.accept(line)) {
-			addEvent(state.getFile().getCanonicalPath(),
-					 state.getFields(), pos, line);
-		}
-	}
+    protected Reader(int spoolSize) {
+        this.spoolSize = spoolSize;
+        eventList = new ArrayList<Event>(spoolSize);
+    }
 
-	protected void addEvent(FileState state, long pos, byte[] line) throws IOException {
-		Filter filter = state.getFilter();
-		if (filter == null || filter.accept(line)) {
-			addEvent(state.getFile().getCanonicalPath(),
-					 state.getFields(), pos, line);
-		}
-	}
+    protected void addEvent(FileState state, long pos, String line) throws IOException {
+        Filter filter = state.getFilter();
+        if (filter == null || filter.accept(line)) {
+            addEvent(state.getFile().getCanonicalPath(),
+                    state.getFields(), pos, line);
+        }
+    }
 
-	protected void addEvent(String fileName, Event fields, long pos, byte[] line) throws IOException {
-		Event event = new Event(fields);
-		event.addField("file", fileName)
-		.addField("offset", pos)
-		.addField("line", line)
-		.addField("host", hostname);
-		eventList.add(event);
-	}
+    protected void addEvent(FileState state, long pos, byte[] line) throws IOException {
+        Filter filter = state.getFilter();
+        if (filter == null || filter.accept(line)) {
+            addEvent(state.getFile().getCanonicalPath(),
+                    state.getFields(), pos, line);
+        }
+    }
 
-	protected void addEvent(String fileName, Event fields, long pos, String line) throws IOException {
-		Event event = new Event(fields);
-		event.addField("file", fileName)
-		.addField("offset", pos)
-		.addField("line", line)
-		.addField("host", hostname);
-		eventList.add(event);
-	}
+    protected void addEvent(String fileName, Event fields, long pos, byte[] line) throws IOException {
+        Event event = new Event(fields);
+        event.addField("file", fileName)
+                .addField("offset", pos)
+                .addField("line", line)
+                .addField("host", hostname);
+        eventList.add(event);
+    }
 
-	public ProtocolAdapter getAdapter() {
-		return adapter;
-	}
+    protected void addEvent(String fileName, Event fields, long pos, String line) throws IOException {
+        Event event = new Event(fields);
+        event.addField("file", fileName)
+                .addField("offset", pos)
+                .addField("line", line)
+                .addField("host", hostname);
+        eventList.add(event);
+    }
 
-	public void setAdapter(ProtocolAdapter adapter) {
-		this.adapter = adapter;
-	}
+    public ProtocolAdapter getAdapter() {
+        return adapter;
+    }
+
+    public void setAdapter(ProtocolAdapter adapter) {
+        this.adapter = adapter;
+    }
 }

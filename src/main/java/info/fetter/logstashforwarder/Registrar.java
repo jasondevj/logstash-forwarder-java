@@ -17,35 +17,35 @@ package info.fetter.logstashforwarder;
  *
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
-
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
+
 public class Registrar {
-	
-	
-	private static ObjectMapper mapper = new ObjectMapper();
-	
-	public static FileState[] readStateFromJson(File file) throws JsonParseException, JsonMappingException, IOException {
-		FileState[] stateArray = mapper.readValue(file, FileState[].class);
-		return stateArray;
-	}
-	
-	public static FileState[] readStateFromJson(String file) throws JsonParseException, JsonMappingException, IOException {
-		return readStateFromJson(new File(file));
-	}
-	
-	public static void writeStateToJson(File file, Collection<FileState> stateList) throws JsonGenerationException, JsonMappingException, IOException {
-		mapper.writeValue(file, stateList);
-	}
-	
-	public static void writeStateToJson(String file, Collection<FileState> stateList) throws JsonGenerationException, JsonMappingException, IOException {
-		writeStateToJson(new File(file), stateList);
-	}
-	
+
+
+    private static ObjectMapper mapper = new ObjectMapper();
+
+    public static FileState[] readStateFromJson(File file) throws JsonParseException, JsonMappingException, IOException {
+        FileState[] stateArray = mapper.readValue(file, FileState[].class);
+        return stateArray;
+    }
+
+    public static FileState[] readStateFromJson(String file) throws JsonParseException, JsonMappingException, IOException {
+        return readStateFromJson(new File(file));
+    }
+
+    public static void writeStateToJson(File file, Collection<FileState> stateList) throws JsonGenerationException, JsonMappingException, IOException {
+        mapper.writeValue(file, stateList);
+    }
+
+    public static void writeStateToJson(String file, Collection<FileState> stateList) throws JsonGenerationException, JsonMappingException, IOException {
+        writeStateToJson(new File(file), stateList);
+    }
+
 }

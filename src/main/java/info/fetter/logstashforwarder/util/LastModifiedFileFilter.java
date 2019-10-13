@@ -17,32 +17,32 @@ package info.fetter.logstashforwarder.util;
  *
  */
 
-import java.io.File;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.AbstractFileFilter;
 
-public class LastModifiedFileFilter extends AbstractFileFilter {
-	private boolean after;
-	private long cutoff;
-	
-	public LastModifiedFileFilter(long cutoff, boolean after) {
-		this.after = after;
-		this.cutoff = cutoff;
-	}
-	
-	public LastModifiedFileFilter(long cutoff) {
-		this(cutoff, true);
-	}
+import java.io.File;
 
-	@Override
-	public boolean accept(File file) {
-		long timeMillis = System.currentTimeMillis() - cutoff;
-		if(after) {
-			return FileUtils.isFileNewer(file, timeMillis);
-		} else {
-			return FileUtils.isFileOlder(file, timeMillis);
-		}
-	}
+public class LastModifiedFileFilter extends AbstractFileFilter {
+    private boolean after;
+    private long cutoff;
+
+    public LastModifiedFileFilter(long cutoff, boolean after) {
+        this.after = after;
+        this.cutoff = cutoff;
+    }
+
+    public LastModifiedFileFilter(long cutoff) {
+        this(cutoff, true);
+    }
+
+    @Override
+    public boolean accept(File file) {
+        long timeMillis = System.currentTimeMillis() - cutoff;
+        if (after) {
+            return FileUtils.isFileNewer(file, timeMillis);
+        } else {
+            return FileUtils.isFileOlder(file, timeMillis);
+        }
+    }
 
 }

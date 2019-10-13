@@ -1,0 +1,21 @@
+{
+  "network": {
+    "servers": [
+      {
+        "protocol": "udp",
+        "connection": "192.168.189.128:5544"
+      }
+    ],
+    "timeout": 15
+  },
+  "files": [
+    {
+      "paths": [
+        "sample-file-01.txt",
+        "sample-file-02.txt"
+      ],
+      "fields": {
+      }
+    }
+  ]
+}

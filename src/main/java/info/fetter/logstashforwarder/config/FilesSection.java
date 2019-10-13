@@ -17,96 +17,96 @@ package info.fetter.logstashforwarder.config;
  *
  */
 
-import java.util.List;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import info.fetter.logstashforwarder.Filter;
+import info.fetter.logstashforwarder.Multiline;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import info.fetter.logstashforwarder.Multiline;
-import info.fetter.logstashforwarder.Filter;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.Map;
 
 public class FilesSection {
-	private List<String> paths;
-	private Map<String,String> fields;
-	@JsonProperty("dead time")
-	private String deadTime = "24h";
-	private Multiline multiline;
-	private Filter filter;
+    private List<String> paths;
+    private Map<String, String> fields;
+    @JsonProperty("dead time")
+    private String deadTime = "24h";
+    private Multiline multiline;
+    private Filter filter;
 
-	public List<String> getPaths() {
-		return paths;
-	}
+    public List<String> getPaths() {
+        return paths;
+    }
 
-	public void setPaths(List<String> paths) {
-		this.paths = paths;
-	}
+    public void setPaths(List<String> paths) {
+        this.paths = paths;
+    }
 
-	public Map<String, String> getFields() {
-		return fields;
-	}
+    public Map<String, String> getFields() {
+        return fields;
+    }
 
-	public void setFields(Map<String, String> fields) {
-		this.fields = fields;
-	}
+    public void setFields(Map<String, String> fields) {
+        this.fields = fields;
+    }
 
-	public String getDeadTime() {
-		return deadTime;
-	}
+    public String getDeadTime() {
+        return deadTime;
+    }
 
-	public long getDeadTimeInSeconds() {
-		long deadTimeInSeconds = 0;
-		String remaining = deadTime;
+    public void setDeadTime(String deadTime) {
+        this.deadTime = deadTime;
+    }
 
-		if(deadTime.contains("h")) {
-			String[] splitByHour = deadTime.split("h",2);
-			if(splitByHour.length > 1) {
-				remaining = splitByHour[1];
-			}
-			deadTimeInSeconds += Integer.parseInt(splitByHour[0]) * 3600;
-		}
-		if(remaining.contains("m")) {
-			String[] splitByMinute = remaining.split("m",2);
-			if(splitByMinute.length > 1) {
-				remaining = splitByMinute[1];
-			}
-			deadTimeInSeconds += Integer.parseInt(splitByMinute[0]) * 60;
-		}
-		if(remaining.contains("s")) {
-			String[] splitBySecond = remaining.split("s",2);
-			deadTimeInSeconds += Integer.parseInt(splitBySecond[0]);
-		}
-		return deadTimeInSeconds;
-	}
+    public long getDeadTimeInSeconds() {
+        long deadTimeInSeconds = 0;
+        String remaining = deadTime;
 
-	public void setDeadTime(String deadTime) {
-		this.deadTime = deadTime;
-	}
+        if (deadTime.contains("h")) {
+            String[] splitByHour = deadTime.split("h", 2);
+            if (splitByHour.length > 1) {
+                remaining = splitByHour[1];
+            }
+            deadTimeInSeconds += Integer.parseInt(splitByHour[0]) * 3600;
+        }
+        if (remaining.contains("m")) {
+            String[] splitByMinute = remaining.split("m", 2);
+            if (splitByMinute.length > 1) {
+                remaining = splitByMinute[1];
+            }
+            deadTimeInSeconds += Integer.parseInt(splitByMinute[0]) * 60;
+        }
+        if (remaining.contains("s")) {
+            String[] splitBySecond = remaining.split("s", 2);
+            deadTimeInSeconds += Integer.parseInt(splitBySecond[0]);
+        }
+        return deadTimeInSeconds;
+    }
 
-	public Multiline getMultiline() {
-		return multiline;
-	}
+    public Multiline getMultiline() {
+        return multiline;
+    }
 
-	public void setMultiline(Map<String, String> multilineMap) throws UnsupportedEncodingException {
-		this.multiline = new Multiline(multilineMap);
-	}
+    public void setMultiline(Map<String, String> multilineMap) throws UnsupportedEncodingException {
+        this.multiline = new Multiline(multilineMap);
+    }
 
-	public Filter getFilter() {
-		return filter;
-	}
+    public Filter getFilter() {
+        return filter;
+    }
 
-	public void setFilter(Map<String, String> filterMap) throws UnsupportedEncodingException {
-		this.filter = new Filter(filterMap);
-	}
+    public void setFilter(Map<String, String> filterMap) throws UnsupportedEncodingException {
+        this.filter = new Filter(filterMap);
+    }
 
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this).
-				append("paths", paths).
-				append("fields", fields).
-				append("dead time", deadTime).
-				append("multiline", multiline).
-				append("filter", filter).
-				toString();
-	}
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).
+                append("paths", paths).
+                append("fields", fields).
+                append("dead time", deadTime).
+                append("multiline", multiline).
+                append("filter", filter).
+                toString();
+    }
 }

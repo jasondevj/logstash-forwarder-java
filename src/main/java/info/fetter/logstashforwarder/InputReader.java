@@ -18,78 +18,77 @@ package info.fetter.logstashforwarder;
  */
 
 import info.fetter.logstashforwarder.util.AdapterException;
+import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.apache.log4j.Logger;
-
 public class InputReader extends Reader {
-	private static Logger logger = Logger.getLogger(InputReader.class);
-	private BufferedReader reader;
-	private long position = 0;
-	private Event fields;
+    private static Logger logger = Logger.getLogger(InputReader.class);
+    private BufferedReader reader;
+    private long position = 0;
+    private Event fields;
 
-	public InputReader(int spoolSize, InputStream in) {
-		super(spoolSize);
-		reader = new BufferedReader(new InputStreamReader(in));
-	}
-	
-	public int readInput() throws AdapterException, IOException {
-		int eventCount = 0;
-		logger.trace("Reading stdin");
-		
-		eventCount += readLines();
-		
-		if(eventCount > 0) {
-			adapter.sendEvents(eventList);
-		}
-		
-		eventList.clear();
-		return eventCount;
-	}
-	
-	private int readLines() throws IOException {
-		int lineCount = 0;
-		byte[] line;
-		while(lineCount < spoolSize && (line = readLine()) != null) {
-			position += line.length;
-			lineCount++;
-			addEvent("stdin", fields, position, line);
-		}
-		return lineCount;
-	}
-	
-	private byte[] readLine() throws IOException {
-		int ch;
-		boolean seenCR = false;
-		while(reader.ready()) {
-			ch=reader.read();
-			switch(ch) {
-			case '\n':
-				byte[] line = new byte[byteBuffer.position()];
-				byteBuffer.rewind();
-				byteBuffer.get(line);
-				byteBuffer.clear();
-				return line;
-			case '\r':
-				seenCR = true;
-				break;
-			default:
-				if (seenCR) {
-					byteBuffer.put((byte) '\r');
-					seenCR = false;
-				}
-				byteBuffer.put((byte)ch);
-			}
-		}
-		return null;
-	}
-	
-	public void setFields(Event fields) {
-		this.fields = fields;
-	}
+    public InputReader(int spoolSize, InputStream in) {
+        super(spoolSize);
+        reader = new BufferedReader(new InputStreamReader(in));
+    }
+
+    public int readInput() throws AdapterException, IOException {
+        int eventCount = 0;
+        logger.trace("Reading stdin");
+
+        eventCount += readLines();
+
+        if (eventCount > 0) {
+            adapter.sendEvents(eventList);
+        }
+
+        eventList.clear();
+        return eventCount;
+    }
+
+    private int readLines() throws IOException {
+        int lineCount = 0;
+        byte[] line;
+        while (lineCount < spoolSize && (line = readLine()) != null) {
+            position += line.length;
+            lineCount++;
+            addEvent("stdin", fields, position, line);
+        }
+        return lineCount;
+    }
+
+    private byte[] readLine() throws IOException {
+        int ch;
+        boolean seenCR = false;
+        while (reader.ready()) {
+            ch = reader.read();
+            switch (ch) {
+                case '\n':
+                    byte[] line = new byte[byteBuffer.position()];
+                    byteBuffer.rewind();
+                    byteBuffer.get(line);
+                    byteBuffer.clear();
+                    return line;
+                case '\r':
+                    seenCR = true;
+                    break;
+                default:
+                    if (seenCR) {
+                        byteBuffer.put((byte) '\r');
+                        seenCR = false;
+                    }
+                    byteBuffer.put((byte) ch);
+            }
+        }
+        return null;
+    }
+
+    public void setFields(Event fields) {
+        this.fields = fields;
+    }
 
 }

@@ -17,54 +17,54 @@ package info.fetter.logstashforwarder;
  *
  */
 
-import java.io.File;
-
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 
+import java.io.File;
+
 public class FileModificationListener implements FileAlterationListener {
-	private Event fields;
-	private FileWatcher watcher;
-	private Multiline multiline;
-	private Filter filter;
+    private Event fields;
+    private FileWatcher watcher;
+    private Multiline multiline;
+    private Filter filter;
 
-	public FileModificationListener(FileWatcher watcher, Event fields, Multiline multiline, Filter filter) {
-		this.watcher = watcher;
-		this.fields = fields;
-		this.multiline = multiline;
-		this.filter = filter;
-	}
+    public FileModificationListener(FileWatcher watcher, Event fields, Multiline multiline, Filter filter) {
+        this.watcher = watcher;
+        this.fields = fields;
+        this.multiline = multiline;
+        this.filter = filter;
+    }
 
-	public void onDirectoryChange(File file) {
-		// Not implemented
-	}
+    public void onDirectoryChange(File file) {
+        // Not implemented
+    }
 
-	public void onDirectoryCreate(File file) {
-		// Not implemented
-	}
+    public void onDirectoryCreate(File file) {
+        // Not implemented
+    }
 
-	public void onDirectoryDelete(File file) {
-		// Not implemented
-	}
+    public void onDirectoryDelete(File file) {
+        // Not implemented
+    }
 
-	public void onFileChange(File file) {
-		watcher.onFileChange(file, fields, multiline, filter);
-	}
+    public void onFileChange(File file) {
+        watcher.onFileChange(file, fields, multiline, filter);
+    }
 
-	public void onFileCreate(File file) {
-		watcher.onFileCreate(file, fields, multiline, filter);
-	}
+    public void onFileCreate(File file) {
+        watcher.onFileCreate(file, fields, multiline, filter);
+    }
 
-	public void onFileDelete(File file) {
-		watcher.onFileDelete(file);
-	}
+    public void onFileDelete(File file) {
+        watcher.onFileDelete(file);
+    }
 
-	public void onStart(FileAlterationObserver file) {
-		// Not implemented
-	}
+    public void onStart(FileAlterationObserver file) {
+        // Not implemented
+    }
 
-	public void onStop(FileAlterationObserver file) {
-		// Not implemented
-	}
+    public void onStop(FileAlterationObserver file) {
+        // Not implemented
+    }
 
 }

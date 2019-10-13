@@ -17,36 +17,37 @@ package info.fetter.logstashforwarder.config;
  *
  */
 
-import java.util.List;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import java.util.List;
+
 public class Configuration {
-	private NetworkSection network;
-	private List<FilesSection> files;
 
-	public NetworkSection getNetwork() {
-		return network;
-	}
+    private NetworkSection network;
+    private List<FilesSection> files;
 
-	public void setNetwork(NetworkSection network) {
-		this.network = network;
-	}
+    public NetworkSection getNetwork() {
+        return network;
+    }
 
-	public List<FilesSection> getFiles() {
-		return files;
-	}
+    public void setNetwork(NetworkSection network) {
+        this.network = network;
+    }
 
-	public void setFiles(List<FilesSection> files) {
-		this.files = files;
-	}
-	
-	@Override
-	public String toString() {
-	     return new ToStringBuilder(this).
-	    	       append("network", network).
-	    	       append("files", files).
-	    	       toString();
-	}
-	
+    public List<FilesSection> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<FilesSection> files) {
+        this.files = files;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).
+                append("network", network).
+                append("files", files).
+                toString();
+    }
+
 }

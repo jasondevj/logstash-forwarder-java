@@ -1,20 +1,22 @@
 {
-    // The network section covers network configuration :)
+  //     The network section covers network configuration :)
   "network": {
     // A list of downstream servers listening for our messages.
     // logstash-forwarder will pick one at random and only switch if
     // the selected one appears to be dead or unresponsive
-    "servers": [ "localhost:5043" ],
-
+    "servers": [
+      {
+        "protocol": "udp",
+        "connection": "localhost:5043"
+      }
+    ],
     // The path to your client ssl certificate (optional)
     "ssl certificate": "./logstash-forwarder.crt",
     // The path to your client ssl key (optional)
     "ssl key": "./logstash-forwarder.key",
-
     // The path to your trusted ssl CA file. This is used
     // to authenticate your downstream server.
     "ssl ca": "./logstash-forwarder.crt",
-
     // Network timeout in seconds. This is most important for
     // logstash-forwarder determining whether to stop waiting for an
     // acknowledgement from the downstream server. If an timeout is reached,
@@ -22,7 +24,6 @@
     // will connect to a server chosen at random from the servers list.
     "timeout": 15
   },
-
   // The list of files configurations
   "files": [
     // An array of hashes. Each hash tells what paths to watch and
@@ -35,26 +36,41 @@
         // to see if any new files match the wildcard.
         "/var/log/*.log"
       ],
-
       // A dictionary of fields to annotate on each event.
-      "fields": { "type": "syslog" }
-    }, {
+      "fields": {
+        "type": "syslog"
+      }
+    },
+    {
       // A path of "-" means stdin.
-      "paths": [ "-" ],
-      "fields": { "type": "stdin" }
-    }, {
+      "paths": [
+        "-"
+      ],
+      "fields": {
+        "type": "stdin"
+      }
+    },
+    {
       "paths": [
         "/var/log/apache/httpd-*.log"
       ],
-      "fields": { "type": "apache" },
-      "dead time": "12h" 
-    }, {
+      "fields": {
+        "type": "apache"
+      },
+      "dead time": "12h"
+    },
+    {
       "paths": [
         "/var/log/apache/error-*.log"
       ],
-      "fields": { "type": "error" },
-      "multiline": { "pattern": "^[0-9]{4}", "negate": "true" },
-      "dead time": "8h32m50s" 
+      "fields": {
+        "type": "error"
+      },
+      "multiline": {
+        "pattern": "^[0-9]{4}",
+        "negate": "true"
+      },
+      "dead time": "8h32m50s"
     }
   ]
 }
